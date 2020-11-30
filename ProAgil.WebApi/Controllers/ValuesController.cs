@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ProAgil.WebApi.Data;
 using ProAgil.WebApi.Models;
 using System;
 using System.Collections.Generic;
@@ -14,52 +17,44 @@ namespace ProAgil.WebApi.Controllers
 
     public class ValuesController : ControllerBase
     {
+        private readonly DataContext _context;
+
+        public ValuesController(DataContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/<ValuesController>
         [HttpGet]
-        public  IEnumerable<Evento> Get()
+        public async Task<IActionResult> Get()
         {
-            return new Evento[] { 
-                new Evento(){
-                    EventoId = 1,
-                    Tema = "Angular e Net",
-                    Local = "BH",
-                    QtdPessoas = 1,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"),
-                    Lote = "Primeiro"
-                },
-                new Evento(){
-                    EventoId = 2,
-                    Tema = "Naruto",
-                    Local = "SP",
-                    QtdPessoas = 2,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"),
-                    Lote = "Segundo"
-                },
-            };
+            try
+            {
+                var result = await _context.Eventos.ToListAsync();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco falhou");
+            }
+           
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public ActionResult <Evento> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return new Evento[] {
-                new Evento(){
-                    EventoId = 1,
-                    Tema = "Angular e Net",
-                    Local = "BH",
-                    QtdPessoas = 1,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"),
-                    Lote = "Primeiro"
-                },
-                new Evento(){
-                    EventoId = 2,
-                    Tema = "Naruto",
-                    Local = "SP",
-                    QtdPessoas = 2,
-                    DataEvento = DateTime.Now.AddDays(2).ToString("dd/MM/yyyy"),
-                    Lote = "Segundo"
-                },
-            }.FirstOrDefault(x => x.EventoId == id);
+
+            try
+            {
+                return Ok(await _context.Eventos.FirstOrDefaultAsync(x => x.EventoId == id));
+            }
+            catch(Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco falhou");
+            }
+
+            
         }
 
         // POST api/<ValuesController>

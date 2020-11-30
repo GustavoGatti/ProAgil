@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProAgil.WebApi.Data;
 
 namespace ProAgil.WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201130135816_Evento")]
+    partial class Evento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace ProAgil.WebApi.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("DataEvento")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImagemUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Local")

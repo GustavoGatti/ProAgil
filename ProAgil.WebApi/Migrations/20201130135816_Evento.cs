@@ -10,13 +10,13 @@ namespace ProAgil.WebApi.Migrations
                 name: "Eventos",
                 columns: table => new
                 {
-                    EventoId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Local = table.Column<string>(type: "TEXT", nullable: true),
-                    DataEvento = table.Column<string>(type: "TEXT", nullable: true),
-                    Tema = table.Column<string>(type: "TEXT", nullable: true),
-                    QtdPessoas = table.Column<int>(type: "INTEGER", nullable: false),
-                    Lote = table.Column<string>(type: "TEXT", nullable: true)
+                    EventoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Local = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataEvento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tema = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QtdPessoas = table.Column<int>(type: "int", nullable: false),
+                    Lote = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
