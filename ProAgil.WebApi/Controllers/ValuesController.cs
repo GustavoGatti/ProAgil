@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ProAgil.WebApi.Data;
-using ProAgil.WebApi.Models;
+using ProAgil.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +16,10 @@ namespace ProAgil.WebApi.Controllers
 
     public class ValuesController : ControllerBase
     {
-        private readonly DataContext _context;
+        
+        private readonly ProAgilContext _context;
 
-        public ValuesController(DataContext context)
+        public ValuesController(ProAgilContext context)
         {
             _context = context;
         }
@@ -74,5 +74,6 @@ namespace ProAgil.WebApi.Controllers
         public void Delete(int id)
         {
         }
+        
     }
 }
