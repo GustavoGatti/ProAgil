@@ -41,7 +41,7 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                var result = await _repo.GetAllEventoAsyncByTema(tema,true);
+                var result = await _repo.GetAllEventoAsyncByTema(tema, true);
                 return Ok(result);
             }
             catch (Exception e)
@@ -56,13 +56,13 @@ namespace ProAgil.WebApi.Controllers
         {
             try
             {
-                
+
                 _repo.Add(model);
                 if (await _repo.SaveChangesAsync())
                 {
                     return Created($"/api/evento/{model.EventoId}", model);
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -71,7 +71,7 @@ namespace ProAgil.WebApi.Controllers
             return BadRequest();
         }
 
-        [HttpPut]
+        [HttpPut("{EventoId}")]
         public async Task<IActionResult> Put(int EventoId, Evento model)
         {
             try
@@ -82,7 +82,8 @@ namespace ProAgil.WebApi.Controllers
                 _repo.Update(model);
                 if (await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/evento/{model.EventoId}", model);
+                    //return Created($"/api/evento/{model.EventoId}", model);
+                    return Ok();
                 }
 
             }
@@ -93,7 +94,7 @@ namespace ProAgil.WebApi.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{EventoId}")]
         public async Task<IActionResult> Delete(int EventoId)
         {
             try
