@@ -6,7 +6,9 @@ using ProAgil.Repository;
 using ProAgil.WebApi.Dtos;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ProAgil.WebApi.Controllers
@@ -40,6 +42,34 @@ namespace ProAgil.WebApi.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco falhou");
             }
 
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> upload()
+        {
+            try
+            {
+                var file = Request.Form.Files[0];
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if(file.Length > 0)
+                {
+                    var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName;
+                    var fullPath = Path.Combine(pathToSave, filename.Replace("\"", " ").Trim());
+                    using(var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco falhou");
+            }
+            return BadRequest("Erro ao tentar utilizar upload");
         }
 
         [HttpGet("{EventoId}")]
